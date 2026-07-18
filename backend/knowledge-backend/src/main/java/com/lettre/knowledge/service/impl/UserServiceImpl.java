@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import com.lettre.knowledge.exception.BusinessException;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,20 +24,53 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
 
-    @Override
-    public User getUser(Long id){
 
-        return userMapper.selectById(id);
+    @Override
+   public User getById(Long id){
+
+    User user = userMapper.selectById(id);
+
+
+    if(user == null){
+
+        throw new BusinessException(
+                40001,
+                "用户不存在"
+        );
+
+    }
+
+
+    return user;
 
     }
 
 
     @Override
-    public List<User> getAll(){
+public List<User> list(){
 
-        return userMapper.selectList(null);
+    return userMapper.selectList(null);
 
-    }
+}
+
+
+
+@Override
+public Page<User> page(
+        long current,
+        long size
+){
+
+    Page<User> page =
+            new Page<>(current,size);
+
+
+    return userMapper.selectPage(
+            page,
+            null
+    );
+
+}
 
 
     @Override

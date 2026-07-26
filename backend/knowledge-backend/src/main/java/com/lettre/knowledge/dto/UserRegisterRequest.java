@@ -1,40 +1,27 @@
-package com.lettre.knowledge.entity;
+package com.lettre.knowledge.dto;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public class UserRegisterRequest {
 
 
-@TableName("user")
-public class User {
-
-
-    @TableId(type = IdType.AUTO)
-    private Long id;
-
-
+    @NotBlank(message = "用户名不能为空")
     private String username;
 
 
-    @JsonIgnore
+    @NotBlank(message = "密码不能为空")
+    @Size(
+        min = 6,
+        message = "密码长度不能少于6位"
+    )
     private String password;
 
 
     private String email;
 
-
-    public Long getId() {
-        return id;
-    }
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
 
     public String getUsername() {
@@ -65,4 +52,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
